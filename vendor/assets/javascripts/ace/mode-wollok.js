@@ -1,4 +1,4 @@
-define("ace/mode/doc_comment_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
+ace.define("ace/mode/doc_comment_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -25,7 +25,7 @@ DocCommentHighlightRules.getTagRule = function(start) {
         token : "comment.doc.tag.storage.type",
         regex : "\\b(?:TODO|FIXME|XXX|HACK)\\b"
     };
-}
+};
 
 DocCommentHighlightRules.getStartRule = function(start) {
     return {
@@ -48,7 +48,7 @@ exports.DocCommentHighlightRules = DocCommentHighlightRules;
 
 });
 
-define("ace/mode/javascript_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(require, exports, module) {
+ace.define("ace/mode/javascript_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -181,7 +181,8 @@ var JavaScriptHighlightRules = function(options) {
                 next  : "property"
             }, {
                 token : "storage.type",
-                regex : /=>/
+                regex : /=>/,
+                next  : "start"
             }, {
                 token : "keyword.operator",
                 regex : /--|\+\+|\.{3}|===|==|=|!=|!==|<+=?|>+=?|!|&&|\|\||\?:|[!$%&*+\-~\/^]=?/,
@@ -521,7 +522,7 @@ function comments(next) {
 exports.JavaScriptHighlightRules = JavaScriptHighlightRules;
 });
 
-define("ace/mode/matching_brace_outdent",["require","exports","module","ace/range"], function(require, exports, module) {
+ace.define("ace/mode/matching_brace_outdent",["require","exports","module","ace/range"], function(require, exports, module) {
 "use strict";
 
 var Range = require("../range").Range;
@@ -561,7 +562,7 @@ var MatchingBraceOutdent = function() {};
 exports.MatchingBraceOutdent = MatchingBraceOutdent;
 });
 
-define("ace/mode/folding/cstyle",["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding/fold_mode"], function(require, exports, module) {
+ace.define("ace/mode/folding/cstyle",["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding/fold_mode"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../../lib/oop");
@@ -582,8 +583,8 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 (function() {
     
-    this.foldingStartMarker = /(\{|\[)[^\}\]]*$|^\s*(\/\*)/;
-    this.foldingStopMarker = /^[^\[\{]*(\}|\])|^[\s\*]*(\*\/)/;
+    this.foldingStartMarker = /([\{\[\(])[^\}\]\)]*$|^\s*(\/\*)/;
+    this.foldingStopMarker = /^[^\[\{\(]*([\}\]\)])|^[\s\*]*(\*\/)/;
     this.singleLineBlockCommentRe= /^\s*(\/\*).*\*\/\s*$/;
     this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/;
     this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/;
@@ -701,7 +702,7 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 });
 
-define("ace/mode/javascript",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/javascript_highlight_rules","ace/mode/matching_brace_outdent","ace/worker/worker_client","ace/mode/behaviour/cstyle","ace/mode/folding/cstyle"], function(require, exports, module) {
+ace.define("ace/mode/javascript",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/javascript_highlight_rules","ace/mode/matching_brace_outdent","ace/worker/worker_client","ace/mode/behaviour/cstyle","ace/mode/folding/cstyle"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -788,7 +789,7 @@ oop.inherits(Mode, TextMode);
 exports.Mode = Mode;
 });
 
-define("ace/mode/wollok_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(require, exports, module) {
+ace.define("ace/mode/wollok_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -797,11 +798,10 @@ var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
 var WollokHighlightRules = function() {
     var keywords = (
-    "test|package|inherits|false|import|else|or|class|and|not|native|override|program|this|try|val|var|catch|object|super|throw|if|null|return|true|new|method"
+    "test|describe|package|inherits|false|import|else|or|class|and|not|native|override|program|self|try|const|var|catch|object|super|throw|if|null|return|true|new|constructor|method|mixin"
     );
 
     var buildinConstants = ("null|assert|console");
-
 
     var langClasses = (
         "Object|Pair|String|Boolean|Number|Integer|Double|Collection|Set|List|Exception|Range" +
@@ -809,7 +809,7 @@ var WollokHighlightRules = function() {
     );
 
     var keywordMapper = this.createKeywordMapper({
-        "variable.language": "this",
+        "variable.language": "self",
         "keyword": keywords,
         "constant.language": buildinConstants,
         "support.function": langClasses
@@ -879,7 +879,7 @@ oop.inherits(WollokHighlightRules, TextHighlightRules);
 exports.WollokHighlightRules = WollokHighlightRules;
 });
 
-define("ace/mode/wollok",["require","exports","module","ace/lib/oop","ace/mode/javascript","ace/mode/wollok_highlight_rules"], function(require, exports, module) {
+ace.define("ace/mode/wollok",["require","exports","module","ace/lib/oop","ace/mode/javascript","ace/mode/wollok_highlight_rules"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -902,4 +902,11 @@ oop.inherits(Mode, JavaScriptMode);
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
-});
+});                (function() {
+                    ace.require(["ace/mode/wollok"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            

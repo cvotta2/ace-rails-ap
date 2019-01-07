@@ -1,4 +1,4 @@
-define("ace/mode/diff_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
+ace.define("ace/mode/diff_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -75,7 +75,7 @@ oop.inherits(DiffHighlightRules, TextHighlightRules);
 exports.DiffHighlightRules = DiffHighlightRules;
 });
 
-define("ace/mode/folding/diff",["require","exports","module","ace/lib/oop","ace/mode/folding/fold_mode","ace/range"], function(require, exports, module) {
+ace.define("ace/mode/folding/diff",["require","exports","module","ace/lib/oop","ace/mode/folding/fold_mode","ace/range"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../../lib/oop");
@@ -108,14 +108,14 @@ oop.inherits(FoldMode, BaseFoldMode);
         }
         if (row == start.row + 1)
             return;
-        return  Range.fromPoints(start, {row: row - 1, column: line.length});
+        return new Range(start.row, start.column, row - 1, line.length);
     };
 
 }).call(FoldMode.prototype);
 
 });
 
-define("ace/mode/diff",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/diff_highlight_rules","ace/mode/folding/diff"], function(require, exports, module) {
+ace.define("ace/mode/diff",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/diff_highlight_rules","ace/mode/folding/diff"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -125,7 +125,7 @@ var FoldMode = require("./folding/diff").FoldMode;
 
 var Mode = function() {
     this.HighlightRules = HighlightRules;
-    this.foldingRules = new FoldMode(["diff", "index", "\\+{3}", "@@|\\*{5}"], "i");
+    this.foldingRules = new FoldMode(["diff", "@@|\\*{5}"], "i");
 };
 oop.inherits(Mode, TextMode);
 
@@ -136,4 +136,11 @@ oop.inherits(Mode, TextMode);
 
 exports.Mode = Mode;
 
-});
+});                (function() {
+                    ace.require(["ace/mode/diff"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            

@@ -1,4 +1,4 @@
-define("ace/mode/actionscript_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
+ace.define("ace/mode/actionscript_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -86,7 +86,7 @@ var ActionScriptHighlightRules = function() {
               'storage.modifier.extends.actionscript.2',
               'meta.class.actionscript.2',
               'entity.other.inherited-class.actionscript.2' ],
-           regex: '\\b(class)(\\s+)([a-zA-Z_](?:\\w|\\.)*)(?:(\\s+)(extends)(\\s+)([a-zA-Z_](?:\\w|\\.)*))?' } ] }
+           regex: '\\b(class)(\\s+)([a-zA-Z_](?:\\w|\\.)*)(?:(\\s+)(extends)(\\s+)([a-zA-Z_](?:\\w|\\.)*))?' } ] };
     
     this.normalizeRules();
 };
@@ -94,7 +94,7 @@ var ActionScriptHighlightRules = function() {
 ActionScriptHighlightRules.metaData = { fileTypes: [ 'as' ],
       keyEquivalent: '^~A',
       name: 'ActionScript',
-      scopeName: 'source.actionscript.2' }
+      scopeName: 'source.actionscript.2' };
 
 
 oop.inherits(ActionScriptHighlightRules, TextHighlightRules);
@@ -102,7 +102,7 @@ oop.inherits(ActionScriptHighlightRules, TextHighlightRules);
 exports.ActionScriptHighlightRules = ActionScriptHighlightRules;
 });
 
-define("ace/mode/folding/cstyle",["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding/fold_mode"], function(require, exports, module) {
+ace.define("ace/mode/folding/cstyle",["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding/fold_mode"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../../lib/oop");
@@ -123,8 +123,8 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 (function() {
     
-    this.foldingStartMarker = /(\{|\[)[^\}\]]*$|^\s*(\/\*)/;
-    this.foldingStopMarker = /^[^\[\{]*(\}|\])|^[\s\*]*(\*\/)/;
+    this.foldingStartMarker = /([\{\[\(])[^\}\]\)]*$|^\s*(\/\*)/;
+    this.foldingStopMarker = /^[^\[\{\(]*([\}\]\)])|^[\s\*]*(\*\/)/;
     this.singleLineBlockCommentRe= /^\s*(\/\*).*\*\/\s*$/;
     this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/;
     this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/;
@@ -242,7 +242,7 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 });
 
-define("ace/mode/actionscript",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/actionscript_highlight_rules","ace/mode/folding/cstyle"], function(require, exports, module) {
+ace.define("ace/mode/actionscript",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/actionscript_highlight_rules","ace/mode/folding/cstyle"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -264,4 +264,11 @@ oop.inherits(Mode, TextMode);
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
-});
+});                (function() {
+                    ace.require(["ace/mode/actionscript"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            

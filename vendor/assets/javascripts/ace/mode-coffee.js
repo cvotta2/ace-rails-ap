@@ -1,4 +1,4 @@
-define("ace/mode/coffee_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
+ace.define("ace/mode/coffee_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module) {
 "use strict";
 
     var oop = require("../lib/oop");
@@ -13,7 +13,7 @@ define("ace/mode/coffee_highlight_rules",["require","exports","module","ace/lib/
             "this|throw|then|try|typeof|super|switch|return|break|by|continue|" +
             "catch|class|in|instanceof|is|isnt|if|else|extends|for|own|" +
             "finally|function|while|when|new|no|not|delete|debugger|do|loop|of|off|" +
-            "or|on|unless|until|and|yes"
+            "or|on|unless|until|and|yes|yield|export|import|default"
         );
 
         var langConstant = (
@@ -21,8 +21,8 @@ define("ace/mode/coffee_highlight_rules",["require","exports","module","ace/lib/
         );
 
         var illegal = (
-            "case|const|default|function|var|void|with|enum|export|implements|" +
-            "interface|let|package|private|protected|public|static|yield"
+            "case|const|function|var|void|with|enum|implements|" +
+            "interface|let|package|private|protected|public|static"
         );
 
         var supportClass = (
@@ -199,7 +199,7 @@ define("ace/mode/coffee_highlight_rules",["require","exports","module","ace/lib/
     exports.CoffeeHighlightRules = CoffeeHighlightRules;
 });
 
-define("ace/mode/matching_brace_outdent",["require","exports","module","ace/range"], function(require, exports, module) {
+ace.define("ace/mode/matching_brace_outdent",["require","exports","module","ace/range"], function(require, exports, module) {
 "use strict";
 
 var Range = require("../range").Range;
@@ -239,7 +239,7 @@ var MatchingBraceOutdent = function() {};
 exports.MatchingBraceOutdent = MatchingBraceOutdent;
 });
 
-define("ace/mode/folding/coffee",["require","exports","module","ace/lib/oop","ace/mode/folding/fold_mode","ace/range"], function(require, exports, module) {
+ace.define("ace/mode/folding/coffee",["require","exports","module","ace/lib/oop","ace/mode/folding/fold_mode","ace/range"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../../lib/oop");
@@ -326,7 +326,7 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 });
 
-define("ace/mode/coffee",["require","exports","module","ace/mode/coffee_highlight_rules","ace/mode/matching_brace_outdent","ace/mode/folding/coffee","ace/range","ace/mode/text","ace/worker/worker_client","ace/lib/oop"], function(require, exports, module) {
+ace.define("ace/mode/coffee",["require","exports","module","ace/mode/coffee_highlight_rules","ace/mode/matching_brace_outdent","ace/mode/folding/coffee","ace/range","ace/mode/text","ace/worker/worker_client","ace/lib/oop"], function(require, exports, module) {
 "use strict";
 
 var Rules = require("./coffee_highlight_rules").CoffeeHighlightRules;
@@ -389,4 +389,11 @@ oop.inherits(Mode, TextMode);
 
 exports.Mode = Mode;
 
-});
+});                (function() {
+                    ace.require(["ace/mode/coffee"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            
